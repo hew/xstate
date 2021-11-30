@@ -1,5 +1,38 @@
 # @xstate/inspect
 
+## 0.6.0
+
+### Minor Changes
+
+- [#2640](https://github.com/statelyai/xstate/pull/2640) [`c73dfd655`](https://github.com/statelyai/xstate/commit/c73dfd655525546e59f00d0be88b80ab71239427) Thanks [@davidkpiano](https://github.com/davidkpiano)! - A serializer can now be specified as an option for `inspect(...)` in the `.serialize` property. It should be a [replacer function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#the_replacer_parameter):
+
+  ```js
+  // ...
+
+  inspect({
+    // ...
+    serialize: (key, value) => {
+      if (value instanceof Map) {
+        return 'map';
+      }
+
+      return value;
+    }
+  });
+
+  // ...
+
+  // Will be inspected as:
+  // {
+  //   type: 'EVENT_WITH_MAP',
+  //   map: 'map'
+  // }
+  someService.send({
+    type: 'EVENT_WITH_MAP',
+    map: new Map()
+  });
+  ```
+
 ## 0.5.2
 
 ### Patch Changes
